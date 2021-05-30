@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Server {
-  var array = List.generate(10, (_) => List.generate(10, (_) => Random().nextInt(11)));
+  var array = List.generate(10, (_) => List.generate(10, (_) => 0));
 
   generateArray() {
     print('Matrix 10 X 10 :');
