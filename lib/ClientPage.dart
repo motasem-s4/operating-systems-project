@@ -11,7 +11,7 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
-  Server server = Server();
+  ServerFun server = ServerFun();
   bool isSorted = false;
   bool isTransposed = false;
   bool isRepeated = false;
@@ -36,8 +36,8 @@ class _ClientPageState extends State<ClientPage> {
           onTap: () {
             setState(() {
               example.clear();
-              server.generateArray();
-              print(server.array);
+              server.generateMatrix();
+              print(server.matrix);
               isSorted = false;
               isTransposed = false;
               isRepeated = false;
@@ -53,19 +53,24 @@ class _ClientPageState extends State<ClientPage> {
           SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25),
-            child: Texts(
-              'Press generate button to generate a random 10 X 10 Matrix',
-              textAlign: TextAlign.start,
-              style: TextStyles.HEADLINE5,
+          InkWell(
+            onTap: (){
+              server.server.close(force: true);
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: Texts(
+                'Press generate button to generate a random 10 X 10 Matrix',
+                textAlign: TextAlign.start,
+                style: TextStyles.HEADLINE5,
+              ),
             ),
           ),
           SizedBox(
             height: 20,
           ),
-          if (server.array.isNotEmpty)
-            ...server.array.map((e) {
+          if (server.matrix.isNotEmpty)
+            ...server.matrix.map((e) {
               e.forEach((element) {
                // print(element);
                 setState(() {
@@ -242,7 +247,7 @@ class _ClientPageState extends State<ClientPage> {
                     isMax = false;
                     isSum = false;
                     sort.clear();
-                    server.sortArray(server.array).forEach((element) {
+                    server.sortMatrix(server.matrix).forEach((element) {
                       element.forEach((e) {
                         sort.add(e);
                       });
@@ -266,7 +271,7 @@ class _ClientPageState extends State<ClientPage> {
                     isMax = false;
                     isSum = false;
                     transpose.clear();
-                    server.transposeArray(server.array).forEach((element) {
+                    server.transposeMatrix(server.matrix).forEach((element) {
                       element.forEach((e) {
                         transpose.add(e);
                       });
@@ -311,7 +316,7 @@ class _ClientPageState extends State<ClientPage> {
                     isRepeated = true;
                     isMax = false;
                     isSum = false;
-                    server.repeatedNumbers(server.array);
+                    server.repeatedNumbers(server.matrix);
                   });
                 },
               ),
@@ -703,8 +708,8 @@ class _ClientPageState extends State<ClientPage> {
                 ],
               ),
           if (isRepeated)
-            if (server.repeatedNumbers(server.array).isNotEmpty)
-              ...server.repeatedNumbers(server.array).entries.map((e) {
+            if (server.repeatedNumbers(server.matrix).isNotEmpty)
+              ...server.repeatedNumbers(server.matrix).entries.map((e) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -722,8 +727,8 @@ class _ClientPageState extends State<ClientPage> {
                 );
               }).toList(),
           if (isMax)
-            if (server.maxNumber(server.array).isNotEmpty)
-              ...server.maxNumber(server.array).entries.map((e) {
+            if (server.maxNumber(server.matrix).isNotEmpty)
+              ...server.maxNumber(server.matrix).entries.map((e) {
                 return Padding(
                   padding:  EdgeInsets.symmetric(vertical: 3,horizontal: 15),
                   child: Row(
@@ -744,7 +749,7 @@ class _ClientPageState extends State<ClientPage> {
               }).toList(),
           if (isSum)
             Texts('The Matrix sum equal = ' +
-                server.arraySummation(server.array).toString())
+                server.matrixSummation(server.matrix).toString())
         ]),
       ),
     );

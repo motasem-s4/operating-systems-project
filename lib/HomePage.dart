@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:os_project/ClientPage.dart';
+import 'package:os_project/Server.dart';
 import 'package:os_project/StudentCard.dart';
 import 'package:os_project/primaryButton.dart';
+import 'package:socket_io/socket_io.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -11,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ServerFun serverFun = ServerFun();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +25,11 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(20),
         child: PrimaryButton(
-          title: 'Next',
+          title: 'Connect',
+          loading: serverFun.isLoading,
           elevation: false,
           onTap: () {
+            serverFun.connectServer();
             Navigator.push(
               context,
               MaterialPageRoute(
